@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -21,7 +22,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create($request->all());
+        $user = new User();
+        $user->email = $request->get('email');
+        $user->name = $request->get('name');
+        $encryptionPassword = Crypt::encrypt($request->get('password'));
+        $user->password = $encryptionPassword;
+        $user->remember_token = $request->user()->createToken($request->name)->plainTextToken;
+        
+        $user->save();
         return response()->json(['user' => $user], Response::HTTP_CREATED);
     }
 

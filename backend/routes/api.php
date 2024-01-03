@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('product', \App\Http\Controllers\ProductController::class)
                     ->middleware('auth:sanctum');
 
+Route::apiResource('users', \App\Http\Controllers\UserController::class)
+                    ->middleware('auth:sanctum');
+
+
 Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login']);
