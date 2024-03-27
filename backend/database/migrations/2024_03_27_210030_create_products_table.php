@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('product_size');
             $table->string('product_description');
             $table->string('product_image')->nullable();
-            $table->integer('category_id')->nullable();
             $table->integer('product_price');
+            $table->integer('product_quantity');
+            //Foreign Category
+            $table->unsignedBigInteger('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
